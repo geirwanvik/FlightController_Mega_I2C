@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 #include "CommandLibrary.h"
-#include "EEPROM/EEPROM.h"
+#include <EEPROM.h>
 #include "Checksum.h"
 #define PUBLIC
 #define PRIVATE static

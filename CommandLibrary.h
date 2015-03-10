@@ -15,7 +15,7 @@
 #define LEDPIN_ON                  PORTB |= (1<<7); PORTC |= (1<<7);
 #define LEDPIN_OFF                 PORTB &= ~(1<<7);PORTC &= ~(1<<7);
 
-enum Commands { IMU_CMD = 'a', ATT_CMD = 'b', PID_CMD = 'c', RC_CMD = 'd', MOTOR_CMD = 'e', EEPROM_CMD = 'f', STATUS_CMD = 'g', LOOPT_CMD = 'h'  };
+enum Commands { IMU_CMD = 'a', ATT_CMD = 'b', PID_CMD = 'c', RC_CMD = 'd', MOTOR_CMD = 'e', EEPROM_CMD = 'f', STATUS_CMD = 'g', LOOPT_CMD = 'h', DEBUG_CMD = 'i' };
 	
 enum Directions { ReadDirection = 'r', WriteDirection = 'w', Ack = 'a' };
 
@@ -108,4 +108,12 @@ typedef struct
 	uint16_t time;
 } loopTime_t;
 extern loopTime_t loopTime;
+
+typedef struct
+{
+        float value1;
+        float value2;
+        float value3;
+} debug_t;
+extern debug_t debug;
 #endif /* COMMANDLIBRARY_H_ */

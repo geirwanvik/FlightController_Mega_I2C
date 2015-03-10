@@ -31,4 +31,5 @@ PRIVATE void SendMotorData(void);
 PRIVATE void StoreStatus(byte* payload, byte length);
 PRIVATE void SendStatus(void);
 PRIVATE void SendLoopTime(void);
+PRIVATE void SendDebug(void);
 #endif //__TELEGRAM_H__

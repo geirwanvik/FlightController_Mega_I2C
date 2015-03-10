@@ -79,6 +79,10 @@ void ProcessTelegram(void)
 		case LOOPT_CMD:
 		SendLoopTime();
 		break;
+
+                case DEBUG_CMD:
+                SendDebug();
+                break;
 	}
 }
 
@@ -193,4 +197,14 @@ void SendLoopTime(void)
 	byte direction = WriteDirection;
 	memcpy(payload,&loopTime,length);
 	SendFrame(command,direction,payload,length);	
+}
+
+void SendDebug(void)
+{
+	byte length = sizeof(debug_t);
+	byte payload[length];
+	byte command = DEBUG_CMD;
+	byte direction = WriteDirection;
+	memcpy(payload,&debug,length);
+	SendFrame(command,direction,payload,length); 
 }

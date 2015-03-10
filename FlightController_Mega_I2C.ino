@@ -3,10 +3,11 @@
 #include "RC.h"
 #include "PID.h"
 #include "CommandLibrary.h"
-#include <EEPROM/EEPROM.h>
+#include <EEPROM.h>
 #include "Memory.h"
 
 loopTime_t loopTime;
+debug_t debug;
 
 void setup()
 {
@@ -31,6 +32,7 @@ void setup()
 
 uint32_t loopRC = 0;
 uint32_t lastLoop = 0, currentLoop;
+byte armCounter = 0;
 
 void loop()
 {
@@ -40,13 +42,40 @@ void loop()
 	if((micros() - loopRC) > RC_INTERVAL)
 	{
 		ComputeRC();
+                if(status.armed)
+                {
+                  LEDPIN_ON
+                }
+                else
+                {
+                  LEDPIN_TOGGLE
+                }
+
+                if (rc.yaw > 1800 && rc.throttle < 1100 && status.armed == 0)
+                {
+                  armCounter++;
+                  if (armCounter > 50)
+                  {
+                    status.armed = 1;
+                    armCounter = 0;
+                  }
+                }
+                else if (rc.yaw < 1200 && rc.throttle < 1100 && status.armed == 1)
+                {
+                  armCounter++;
+                  if ( armCounter > 50)
+                  {
+                    status.armed = 0;
+                    armCounter = 0;
+                  }
+                }
 		loopRC = micros();
 	}
 	else
 	{
 		TelegramStateMachine();
 	}
-	
+        
 	currentLoop = micros();
 	loopTime.time = currentLoop - lastLoop;
 	if( loopTime.time < LOOPTIME)
@@ -54,5 +83,4 @@ void loop()
 		delayMicroseconds( LOOPTIME - loopTime.time );
 	}
 	lastLoop = micros();
-
 }
